@@ -4,7 +4,10 @@
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         nixos-hardware.url = "github:nixos/nixos-hardware";
-        agenix.url = "github:ryantm/agenix";
+        sops = {
+            url = "github:mic92/sops-nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         #VScode - nil
         nil.url = "github:oxalica/nil";
@@ -24,7 +27,7 @@
                 home-manager,
                 catppuccin,
                 nixos-hardware,
-                agenix, 
+                sops, 
                 ...
             }: let
                 inherit (self) outputs;

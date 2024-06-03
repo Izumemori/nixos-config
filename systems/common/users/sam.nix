@@ -60,14 +60,7 @@
     discord.enable = true;  
     bitwarden.enable = true;
     qgis.enable = true;
-    
-    ssh.matchBlocks = {
-      "uni.dmz.local.izu.re" = {
-        hostname = "uni.dmz.local.izu.re";
-        user = "sam";
-        forwardAgent = true;
-      };
-    };
+    kubernetes.enable = true;
   };
 
   home = {

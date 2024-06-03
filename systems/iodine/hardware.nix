@@ -57,6 +57,16 @@
   # networking.interfaces.enp195s0f3u1u2.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
 
+  hardware.bluetooth = {
+    enable = true; # enables support for Bluetooth
+    settings = {
+      General = {
+        Experimental = true;
+      };
+    };
+  };
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

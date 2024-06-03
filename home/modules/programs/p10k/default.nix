@@ -14,7 +14,6 @@ in {
   };
 
   config = lib.mkIf (cfg.enable && zshCfg.enable) {
-    #programs.zsh.enable = true;
     programs.zsh.plugins = [
       {
         name = "powerlevel10k";
