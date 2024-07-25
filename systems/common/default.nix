@@ -8,6 +8,7 @@
     ./configuration.nix
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.home-manager
+    inputs.NixVirt.nixosModules.default
     inputs.sops.nixosModules.sops
     {
         home-manager.useGlobalPkgs = true;
@@ -16,6 +17,7 @@
             imports = [
                 inputs.catppuccin.homeManagerModules.catppuccin
                 inputs.sops.homeManagerModules.sops
+                inputs.NixVirt.homeModules.default
             ] ++ builtins.attrValues (import ../../home/modules inputs)
             ++ [
                 ./users/sam.nix

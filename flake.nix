@@ -19,6 +19,11 @@
             url = "github:nix-community/home-manager/release-24.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        NixVirt = {
+            url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs = inputs@{
@@ -27,13 +32,15 @@
                 home-manager,
                 catppuccin,
                 nixos-hardware,
-                sops, 
+                sops,
+                NixVirt,
                 ...
             }: let
                 inherit (self) outputs;
             in {
                 nixosConfigurations = {
                     iodine = import ./systems/iodine { inherit inputs outputs; };
-                };
+                    krypton = import ./systems/krypton {inherit inputs outputs; };
+		};
             };
 }
