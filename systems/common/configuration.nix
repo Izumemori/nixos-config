@@ -16,6 +16,8 @@
         "docker"
         "video"
         "uucp"
+        "libvirtd"
+        "adbusers"
       ];
     };
   };
@@ -47,6 +49,11 @@
       })
     ];
 
+  programs = {
+    steam.enable = true;
+    adb.enable = true;
+  };
+
   services = {
     displayManager = {
       sddm = {
@@ -56,12 +63,6 @@
     };
 
     desktopManager.plasma6.enable = true;
-
-    sunshine = {
-      enable = true;
-      capSysAdmin = true;
-      autoStart = true;
-    };
 
     dbus = {
       enable = true;
@@ -76,6 +77,14 @@
     };
 
     yubikey.enable = true;
+
+    usbmuxd.enable = true;
+
+    samba.enableClient = true;
+
+    udev.packages = [
+      pkgs.android-udev-rules
+    ];
   };
 
   networking = {
@@ -95,13 +104,21 @@
     glances
 
     firefox
+    thunderbird
+    parsec-bin
 
     zsh
 
     wget
     unzip
 
-    virt-manager
+    virt-viewer
+    spice 
+    spice-gtk
+    spice-protocol
+    win-virtio
+    win-spice
+    virtiofsd
 
     vscode
     nil
@@ -109,7 +126,17 @@
     sudo
 
     catppuccin-kde
-  ];
+
+    lm_sensors
+
+    sops
+
+    jetbrains.rider
+
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
+    ];
+
 
   catppuccin.flavor = "mocha";
   catppuccin.enable = true;
@@ -118,11 +145,21 @@
     zsh = {
       enable = true;
     };
+
+    virt-manager.enable = true;
   };
 
   virtualisation = {
     docker.enable = true;
-    libvirtd.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu = {
+        swtpm.enable = true;
+        ovmf.enable = true;
+        ovmf.packages = [ pkgs.OVMFFull.fd ];
+      };
+    };
+    spiceUSBRedirection.enable = true;
   };
 
   boot = {

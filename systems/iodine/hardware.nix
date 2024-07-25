@@ -16,9 +16,15 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "zenpower" ];
   boot.extraModulePackages = [ ];
-
+  boot.kernelParams = [
+    "iommu=pt"
+    "amd_iommu=on"
+  ];
+  boot.extraModprobeConfig = ''
+    options kvm_amd avic=1
+  '';
   fileSystems."/" =
     { device = "/dev/nvme0n1p3";
       fsType = "btrfs";

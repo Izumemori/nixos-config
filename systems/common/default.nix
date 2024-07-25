@@ -8,6 +8,7 @@
     ./configuration.nix
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.home-manager
+    inputs.sops.nixosModules.sops
     {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;

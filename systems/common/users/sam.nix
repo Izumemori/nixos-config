@@ -54,12 +54,13 @@
       userName = "Sam Rohling";
       extraConfig = {
         user.signingkey = "0x8915fc124cf78a58";
+        safe.directory = "*";
       };
     };
 
     discord.enable = true;  
     bitwarden.enable = true;
-    qgis.enable = true;
+    #qgis.enable = true;
     kubernetes.enable = true;
   };
 
