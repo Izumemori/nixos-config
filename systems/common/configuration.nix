@@ -41,7 +41,7 @@
         discord-canary-overlay = super.discord-canary.overrideAttrs (_: { 
             src = builtins.fetchTarball {
               url = "https://discord.com/api/download/canary?platform=linux&format=tar.gz";
-              sha256 = "192scvdsc7mx78wcg4ywpjyv4gcmqmj5g55yr7mkmdysf969xwwd";
+              sha256 = "0fsg5l2pnfb267n7d88ibfck82c4mdc9b5bhqjnw8n0yqdirjymg";
             };
           });
         vscode = enableWayland super.vscode "code";
