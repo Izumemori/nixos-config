@@ -20,10 +20,12 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        NixVirt = {
+        nixvirt = {
             url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        spicetify-nix.url = "github:the-argus/spicetify-nix";
     };
 
     outputs = inputs@{
@@ -33,7 +35,8 @@
                 catppuccin,
                 nixos-hardware,
                 sops,
-                NixVirt,
+                nixvirt,
+                spicetify-nix,
                 ...
             }: let
                 inherit (self) outputs;

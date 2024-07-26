@@ -96,12 +96,23 @@
     noto-fonts-emoji
     (nerdfonts.override { fonts = ["FiraCode"]; })
   ];
-  
+
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.waylandFrontend = true;
+    fcitx5.addons = with pkgs; [
+      kdePackages.fcitx5-qt
+      fcitx5-mozc
+    ];
+    
+  };
+
   environment.systemPackages = with pkgs; [
     mpv
     git
     libnotify
     glances
+    hyfetch
 
     firefox
     thunderbird
@@ -136,11 +147,7 @@
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
     ];
-
-
-  catppuccin.flavor = "mocha";
-  catppuccin.enable = true;
-
+    
   programs = {    
     zsh = {
       enable = true;

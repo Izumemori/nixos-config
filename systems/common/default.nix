@@ -5,10 +5,12 @@
   ...
 }: {
   imports = [
+    ../../nixos/theme.nix
+
     ./configuration.nix
     inputs.catppuccin.nixosModules.catppuccin
     inputs.home-manager.nixosModules.home-manager
-    inputs.NixVirt.nixosModules.default
+    inputs.nixvirt.nixosModules.default
     inputs.sops.nixosModules.sops
     {
         home-manager.useGlobalPkgs = true;
@@ -17,10 +19,12 @@
             imports = [
                 inputs.catppuccin.homeManagerModules.catppuccin
                 inputs.sops.homeManagerModules.sops
-                inputs.NixVirt.homeModules.default
+                inputs.nixvirt.homeModules.default
+                inputs.spicetify-nix.homeManagerModule
             ] ++ builtins.attrValues (import ../../home/modules inputs)
             ++ [
                 ./users/sam.nix
+                (import ../../home/theme.nix inputs)
             ];
         };
     }

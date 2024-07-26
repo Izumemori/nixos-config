@@ -4,20 +4,26 @@
   osConfig,
   ...
 }: {
-
-  catppuccin.enable = true;
-
   extraConfig = {
     gnupg.enable = true;
     ssh.enable = true;
   };
 
   programs = {
+    kitty = {
+      enable = true;
+      shellIntegration = {
+        enableZshIntegration = true;
+      };
+    };
+
     zsh = {
       enable = true;
       enableCompletion = true;
       autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
+      syntaxHighlighting = {
+        enable = true;
+      };
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -62,6 +68,7 @@
     bitwarden.enable = true;
     #qgis.enable = true;
     kubernetes.enable = true;
+    spotify.enable = true;
   };
 
   home = {

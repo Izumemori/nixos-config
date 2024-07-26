@@ -1,10 +1,15 @@
-_: {
+inputs:{  
   pkgs,
   lib,
   config,
   ...
 } : let 
   cfg = config.services.vfio;
+
+  moduleConfig = {
+    config = cfg;
+    nixvirt = inputs.nixvirt;
+  };
 in {
   options.services.vfio = with lib; with types; {
     enable = mkEnableOption "Enable VM";
@@ -12,28 +17,43 @@ in {
       type = listOf str; 
       description = "PCI ids to blacklist";
     };
+    storagePath = mkOption {
+      type = str;
+      description = "Path to the pool";
+    };
+    nvramPath = mkOption {
+      type = str;
+      description = "Path to the nvram storage";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       virt-manager
       qemu
+      OVMFFull
     ];
 
-    virtualisation.libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_kvm;
-        runAsRoot = true;
+    virtualisation = {
+      libvirtd = {
+        enable = true;
+        qemu = {
+          package = pkgs.qemu_kvm;
+          runAsRoot = true;
+          swtpm.enable = true;
+          ovmf = {
+            enable = true;
+            packages = [pkgs.OVMFFull.fd];
+          };
+        };
+      };
+      libvirt = {
+        enable = true;
         swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [
-            (pkgs.OVMF.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
+        connections."qemu:///system" = {
+          networks = import ./networks moduleConfig;
+          domains = import ./domains moduleConfig;
+          pools = import ./pools moduleConfig;
         };
       };
     };

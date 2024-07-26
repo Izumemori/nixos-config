@@ -16,6 +16,8 @@
         "10de:2484"
         "10de:228b"
       ];
+      storagePath = "/home/sam/.vm/storage/";
+      nvramPath = "/home/sam/.vm/nvram/";
     };
   };
 
