@@ -9,6 +9,10 @@
     firewall.enable = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    corectrl
+  ];
+
   services = {
     vfio = {
       enable = true;
@@ -16,6 +20,7 @@
         "10de:2484"
         "10de:228b"
       ];
+      isosPath = "/home/sam/.vm/isos/";
       storagePath = "/home/sam/.vm/storage/";
       nvramPath = "/home/sam/.vm/nvram/";
     };

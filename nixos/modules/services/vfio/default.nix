@@ -9,6 +9,7 @@ inputs:{
   moduleConfig = {
     config = cfg;
     nixvirt = inputs.nixvirt;
+    lib = lib;
   };
 in {
   options.services.vfio = with lib; with types; {
@@ -16,6 +17,10 @@ in {
     pciIDs = mkOption {
       type = listOf str; 
       description = "PCI ids to blacklist";
+    };
+    isosPath = mkOption {
+      type = str;
+      description = "Path to the iso pool";
     };
     storagePath = mkOption {
       type = str;
@@ -32,6 +37,9 @@ in {
       virt-manager
       qemu
       OVMFFull
+
+      # for switching the input on my monitor
+      ddcutil
     ];
 
     virtualisation = {
@@ -58,8 +66,14 @@ in {
       };
     };
 
+    systemd.tmpfiles.rules = [
+      "d ${cfg.isosPath} 0770 sam users -"
+      "d ${cfg.storagePath} 0770 sam users -"
+      "d ${cfg.nvramPath} 0770 sam users -"
+    ];
+
     boot = {
-      kernelModules = [ "kvm-amd" ];
+      kernelModules = [ "kvm-amd" "i2c-dev" ];
 
       initrd.kernelModules = [
         "vfio_pci"

@@ -8,4 +8,8 @@ moduleConfig:
     definition = moduleConfig.nixvirt.lib.domain.writeXML(import ./idle.nix moduleConfig);
     active = true;
   }
+  {
+    definition = moduleConfig.nixvirt.lib.domain.writeXML(import ./arch.nix moduleConfig);
+    active = false;
+  }
 ]
