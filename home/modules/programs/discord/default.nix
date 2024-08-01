@@ -6,6 +6,7 @@ _: {
   ...
 } : let 
   cfg = config.programs.discord;
+  res = import ./nixos.nix osConfig;
 in {
   _file = ./default.nix;
 
@@ -19,7 +20,7 @@ in {
       recursive = true;
       force = true;
     };
-
+    
     home.packages = with pkgs; [
       discord-canary
     ];

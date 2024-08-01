@@ -2,6 +2,7 @@
   pkgs,
   inputs,
   config,
+  lib,
   ...
 } : {
   users = {
@@ -38,20 +39,17 @@
         );
       in
        super: { 
-        discord-canary-overlay = super.discord-canary.overrideAttrs (_: { 
-            src = builtins.fetchTarball {
-              url = "https://discord.com/api/download/canary?platform=linux&format=tar.gz";
-              sha256 = "0fsg5l2pnfb267n7d88ibfck82c4mdc9b5bhqjnw8n0yqdirjymg";
-            };
-          });
         vscode = enableWayland super.vscode "code";
-        discord-canary = enableWayland self.discord-canary-overlay "DiscordCanary";
       })
     ];
 
   programs = {
     steam.enable = true;
     adb.enable = true;
+    ausweisapp2 = {
+      enable = true;
+      openFirewallPorts = true;
+    };
   };
 
   services = {
