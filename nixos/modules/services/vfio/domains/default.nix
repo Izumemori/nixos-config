@@ -1,7 +1,7 @@
 moduleConfig: 
 [
   {
-    definition = ./xml/win11-4c-16GiB.xml;
+    definition = ./xml/win11-6c-24GiB.xml;
     active = false;
   }
   {

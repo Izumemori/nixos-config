@@ -1,14 +1,14 @@
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
-  <name>win11-4c-16GiB</name>
+  <name>win11-6c-24GiB</name>
   <uuid>691d912f-72e7-4c15-98fa-ae43538f3dbe</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://microsoft.com/win/11"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='KiB'>16777216</memory>
-  <currentMemory unit='KiB'>16777216</currentMemory>
-  <vcpu placement='static'>8</vcpu>
+  <memory unit='GiB'>24</memory>
+  <currentMemory unit='GiB'>24</currentMemory>
+  <vcpu placement='static'>12</vcpu>
   <iothreads>1</iothreads>
   <cputune>
     <vcpupin vcpu='0' cpuset='1'/>
@@ -19,6 +19,10 @@
     <vcpupin vcpu='5' cpuset='11'/>
     <vcpupin vcpu='6' cpuset='4'/>
     <vcpupin vcpu='7' cpuset='12'/>
+    <vcpupin vcpu='8' cpuset='5'/>
+    <vcpupin vcpu='9' cpuset='13'/>
+    <vcpupin vcpu='10' cpuset='6'/>
+    <vcpupin vcpu='11' cpuset='14'/>
     <emulatorpin cpuset='0,8'/>
   </cputune>
  <os>
@@ -44,7 +48,7 @@
     <smm state='on'/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' clusters='1' cores='4' threads='2'/>
+    <topology sockets='1' dies='1' clusters='1' cores='6' threads='2'/>
     <cache mode='passthrough'/>
     <feature policy='require' name='topoext'/>
     <feature policy='require' name='avic'/>

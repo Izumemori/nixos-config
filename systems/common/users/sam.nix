@@ -66,7 +66,7 @@
 
     discord.enable = true;  
     bitwarden.enable = true;
-    #qgis.enable = true;
+    qgis.enable = true;
     kubernetes.enable = true;
     spotify.enable = true;
   };

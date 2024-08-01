@@ -23,6 +23,8 @@
       isosPath = "/home/sam/.vm/isos/";
       storagePath = "/home/sam/.vm/storage/";
       nvramPath = "/home/sam/.vm/nvram/";
+      user = "sam";
+      kvmfr.enable = false;
     };
   };
 

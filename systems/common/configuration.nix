@@ -2,6 +2,7 @@
   pkgs,
   inputs,
   config,
+  lib,
   ...
 } : {
   users = {
@@ -45,6 +46,10 @@
   programs = {
     steam.enable = true;
     adb.enable = true;
+    ausweisapp2 = {
+      enable = true;
+      openFirewallPorts = true;
+    };
   };
 
   services = {
