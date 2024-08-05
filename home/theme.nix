@@ -4,7 +4,7 @@ inputs: {
   config,
   ...
 } : let
-  spicePkgs = inputs.spicetify-nix.packages.${pkgs.system}.default;
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 
   flavor = "mocha";
   accent = "peach";
