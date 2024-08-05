@@ -324,5 +324,9 @@
   <qemu:commandline>
     <qemu:arg value='-overcommit'/>
     <qemu:arg value='cpu-pm=on'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='ivshmem-plain,id=shmem0,memdev=looking-glass'/>
+    <qemu:arg value='-object'/>
+    <qemu:arg value='memory-backend-file,id=looking-glass,mem-path=/dev/kvmfr0,size=64M,share=yes'/>
   </qemu:commandline>
 </domain>

@@ -38,7 +38,7 @@ in {
     };
     group = mkOption {
       type = types.str;
-      default = "qemu-libvirtd";
+      default = "libvirtd";
       description = "Group of the files and folders";
     };
 
@@ -67,9 +67,10 @@ in {
             owner = "gnif";
             repo = "LookingGlass";
             rev = "d060e375ea47e4ca38894ea7bf02a85dbe29b1f8";
-            hash = "sha256-ne1Q+67+P8RHcTsqdiSSwkFf0g3pSNT91WN/lsSzssU=";
+            hash = "sha256-RvOQF/DuWl7BhhNpHO3Edf8tbLdh4Y+J1llP4Z3qiCQ=";
             fetchSubmodules = true;
           };
+          patches = [];
         });
       })
     ];
@@ -78,6 +79,12 @@ in {
       virt-manager
       qemu
       OVMFFull
+    
+      (pkgs.wrapOBS {
+        plugins = with pkgs.obs-studio-plugins; [
+          looking-glass-obs
+        ];
+      })
 
       # for switching the input on my monitor
       ddcutil
@@ -90,6 +97,18 @@ in {
           package = pkgs.qemu_kvm;
           runAsRoot = true;
           swtpm.enable = true;
+          verbatimConfig = ''
+            user = "${cfg.user}"
+            group = "${cfg.group}"
+
+            cgroup_device_acl = [
+                "/dev/kvmfr0",
+                "/dev/null", "/dev/full", "/dev/zero",
+                "/dev/random", "/dev/urandom",
+                "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+                "/dev/rtc","/dev/hpet", "/dev/vfio/vfio"
+            ]
+          '';
           ovmf = {
             enable = true;
             packages = [pkgs.OVMFFull.fd];
@@ -127,7 +146,7 @@ in {
         "vfio_pci"
         "vfio"
         "vfio_iommu_type1"
-      ]; #++ lib.optional cfg.kvmfr.enable "kvmfr";
+      ] ++ lib.optional cfg.kvmfr.enable "kvmfr";
 
       kernelParams = [
         "amd_iommu=on"
