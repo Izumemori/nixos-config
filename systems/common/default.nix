@@ -1,12 +1,18 @@
-{ 
-  pkgs,
-  inputs,
-  config,
-  ...
-}: {
-  imports = [
-    ../../nixos/theme.nix
+{inputs, ...}: 
+let
+  system = "x86_64-linux";
 
+  overlay-unstable = final: prev: {
+    unstable = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  }; 
+in 
+{
+  imports = [
+    ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+    ../../nixos/theme.nix
     ./configuration.nix
     inputs.catppuccin.nixosModules.catppuccin
     inputs.nixvirt.nixosModules.default

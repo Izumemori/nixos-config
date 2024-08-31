@@ -50,6 +50,7 @@
       enable = true;
       openFirewallPorts = true;
     };
+    kdeconnect.enable = true;
   };
 
   services = {
@@ -144,9 +145,14 @@
 
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
-    ];
+
+    unstable.android-studio
+
+    gimp
+  ];
     
   programs = {    
+    dotnet.enable = true;
     zsh = {
       enable = true;
     };

@@ -7,4 +7,5 @@ inputs: {
 
   "programs/steam" = import ./programs/steam inputs;
   "programs/ausweisapp2" = import ./programs/ausweisapp2 inputs;
+  "programs/dotnet" = import ./programs/dotnet inputs;
 }

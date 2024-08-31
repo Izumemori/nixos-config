@@ -62,12 +62,12 @@ in {
     nixpkgs.overlays = [
       (self: super: {
         looking-glass-client = super.looking-glass-client.overrideAttrs (oldAttrs: {
-          version = "B7-rc1-d060e37";
+          version = "B7-rc1-3ea37b8";
           src = super.fetchFromGitHub {
             owner = "gnif";
             repo = "LookingGlass";
-            rev = "d060e375ea47e4ca38894ea7bf02a85dbe29b1f8";
-            hash = "sha256-RvOQF/DuWl7BhhNpHO3Edf8tbLdh4Y+J1llP4Z3qiCQ=";
+            rev = "3ea37b86e38a87ee35eefb5d8fcc38b8dc8e2903";
+            hash = "sha256-DuCznF2b3kbt6OfoOUD3ijJ1im7anxj25/xcQnIVnWc=";
             fetchSubmodules = true;
           };
           patches = [];
@@ -80,6 +80,8 @@ in {
       qemu
       OVMFFull
     
+      virtiofsd
+
       (pkgs.wrapOBS {
         plugins = with pkgs.obs-studio-plugins; [
           looking-glass-obs

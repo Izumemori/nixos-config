@@ -3,6 +3,7 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
         nixos-hardware.url = "github:nixos/nixos-hardware/master";
         sops = {
             url = "github:mic92/sops-nix";
@@ -34,6 +35,7 @@
     outputs = inputs@{
                 self,
                 nixpkgs,
+                nixpkgs-unstable,
                 home-manager,
                 catppuccin,
                 nixos-hardware,

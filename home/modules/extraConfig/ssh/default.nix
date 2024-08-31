@@ -11,7 +11,7 @@ in {
     enable = lib.mkEnableOption "Enable ssh config";
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     home.file.".ssh" = {
       source = ./config;
       recursive = true;
