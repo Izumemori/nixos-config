@@ -96,15 +96,15 @@
     (nerdfonts.override { fonts = ["FiraCode"]; })
   ];
 
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.waylandFrontend = true;
-    fcitx5.addons = with pkgs; [
-      kdePackages.fcitx5-qt
-      fcitx5-mozc
-    ];
-    
-  };
+  #i18n.inputMethod = {
+  #  enabled = "fcitx5";
+  #  fcitx5.waylandFrontend = true;
+  #  fcitx5.addons = with pkgs; [
+  #    kdePackages.fcitx5-qt
+  #    fcitx5-mozc
+  #  ];
+  #  
+  #};
 
   environment.systemPackages = with pkgs; [
     mpv
@@ -146,7 +146,7 @@
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
 
-    unstable.android-studio
+    android-studio
 
     gimp
   ];
@@ -180,6 +180,20 @@
       systemd.dbus.enable = true;
     };
     kernelPackages = pkgs.linuxPackages_latest;
+  };
+
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      epson-escpr
+    ];
+  };
+
+  # autodiscovery of printers
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 
   time.timeZone = "Europe/Berlin";

@@ -5,7 +5,7 @@
   ...
 } : let 
   cfg = config.programs.dotnet;
-  buildDotnet = attrs: pkgs.unstable.dotnetCorePackages.callPackage (import ./nixpkgs/dotnet/build-dotnet.nix attrs) { };
+  buildDotnet = attrs: pkgs.dotnetCorePackages.callPackage (import ./nixpkgs/dotnet/build-dotnet.nix attrs) { };
   packages = { fetchNuGet }: [
       (fetchNuGet { pname = "Microsoft.AspNetCore.App.Runtime.linux-arm"; version = "9.0.0-preview.7.24406.2"; sha256 = "1f48vfy1r5c40swlf44ippd2zhpy7mgpk08yisvn62yslf9wqqin"; })
       (fetchNuGet { pname = "Microsoft.AspNetCore.App.Runtime.linux-arm64"; version = "9.0.0-preview.7.24406.2"; sha256 = "1ay99zj073hj5wcy7igzmr6mi106rscqhbqp3d9agx61j899ysnd"; })
@@ -88,7 +88,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     environment =  let
-      dotnet-combined = (with pkgs.unstable.dotnetCorePackages; combinePackages [
+      dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
         # First SDK = Used in main system
         (buildDotnet {
           version = "9.0.100-preview.7.24407.12";

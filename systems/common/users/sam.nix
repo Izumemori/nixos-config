@@ -41,7 +41,6 @@
           "rake"
           "rbenv"
           "ruby"
-          "adb"
           "catimg"
           "colorize"
           "command-not-found"

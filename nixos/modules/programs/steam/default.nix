@@ -15,10 +15,7 @@ in {
       gamescopeSession.enable = true;
     };
 
-    hardware.opengl = {
-      driSupport = true;
-      driSupport32Bit = true;
-
+    hardware.graphics = {
       extraPackages = [ pkgs.amdvlk ];
       extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
     };

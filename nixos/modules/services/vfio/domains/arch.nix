@@ -2,7 +2,7 @@ moduleConfig:
 let
 
 base = import ./templates/uefi.nix moduleConfig {
-  name = "arch";
+  name = "truenas";
   uuid = "bc217ed3-8126-4f4d-bffe-b2e8439435f8";
   memory = { count = 8; unit = "GiB"; };
 };

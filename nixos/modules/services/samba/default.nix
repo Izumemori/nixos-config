@@ -14,7 +14,7 @@ _: {
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in [ "${automount_opts},credentials=/etc/nixos/smb-secrets,rw,uid=1000" ];
+    in [ "${automount_opts},credentials=/etc/nixos/smb-secrets,vers=3.0,rw,uid=1000,soft,rsize=8192,wsize=8192,mfsymlinks" ];
   };
 in {
   options.services.samba = with lib; with types; {

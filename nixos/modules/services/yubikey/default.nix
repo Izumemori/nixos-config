@@ -37,6 +37,24 @@ in {
       udev.packages = [ pkgs.yubikey-personalization ];
     };
 
+    security.polkit = {
+      debug = true;
+      enable = lib.mkForce true;
+      extraConfig = ''
+        polkit.addRule(function(action, subject) {
+          if (action.id == "org.debian.pcsc-lite.access_card") {
+            return polkit.Result.YES;
+          }
+        });
+
+        polkit.addRule(function(action, subject) {
+          if (action.id == "org.debian.pcsc-lite.access_pcsc") {
+            return polkit.Result.YES;
+          }
+        });
+      '';
+    };
+
     environment = {
       shellInit = ''
         gpg-connect-agent /bye

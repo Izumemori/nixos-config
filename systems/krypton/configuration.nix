@@ -7,6 +7,7 @@
   networking = {
     hostName = "krypton";
     firewall.enable = true;
+    hostId = "12345678";
   };
 
   environment.systemPackages = with pkgs; [

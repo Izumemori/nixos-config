@@ -2,8 +2,8 @@
     description = "Sam's nix flake";
 
     inputs = {
-        nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         nixos-hardware.url = "github:nixos/nixos-hardware/master";
         sops = {
             url = "github:mic92/sops-nix";
@@ -17,7 +17,7 @@
         catppuccin.url = "github:catppuccin/nix";
 
         home-manager = {
-            url = "github:nix-community/home-manager/release-24.05";
+            url = "github:nix-community/home-manager/master";
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
@@ -35,7 +35,7 @@
     outputs = inputs@{
                 self,
                 nixpkgs,
-                nixpkgs-unstable,
+                nixpkgs-stable,
                 home-manager,
                 catppuccin,
                 nixos-hardware,
