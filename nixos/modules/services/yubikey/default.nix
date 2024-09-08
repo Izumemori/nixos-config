@@ -42,13 +42,14 @@ in {
       enable = lib.mkForce true;
       extraConfig = ''
         polkit.addRule(function(action, subject) {
-          if (action.id == "org.debian.pcsc-lite.access_card") {
-            return polkit.Result.YES;
-          }
-        });
-
-        polkit.addRule(function(action, subject) {
-          if (action.id == "org.debian.pcsc-lite.access_pcsc") {
+          if (
+            subject.isInGroup("users")
+              && (
+                  action.id == "org.debian.pcsc-lite.access_card" ||
+                  action.id == "org.debian.pcsc-lite.access_pcsc"
+                )
+              ) 
+          {
             return polkit.Result.YES;
           }
         });
