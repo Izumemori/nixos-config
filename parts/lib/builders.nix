@@ -5,42 +5,44 @@
 } : let
   inherit (inputs) self nixpkgs;
   inherit (lib) mkDefault;
-  inherit (lib.lists) concatLists singleton forEach;
-  inherit (lib.attrsets) recursiveUpdate;
+  inherit (lib.lists) singleton;
 
   mkNodeModules = {
-      profile,
       users ? [ lib.users.sam ],
       components ? [],
       extraModules ? []
     }: let
-    in (lib.lists.singleton profile._path)
-      ++ (map (val: val._path) users)
+    in (map (val: val._path) users)
       ++ (map (val: val._path) components)
       ++ extraModules; 
 
   mkNode = node: {
     withSystem
   }: let 
-    nodeOptions = import (node._path + "/options.nix") { inherit inputs lib mkNodeModules; };
-  in withSystem nodeOptions.system ({
+    modules = mkNodeModules {
+      inherit (node.config) users extraModules;
+      components = node.config.components ++ node.config.profile.config.components;
+    };
+  in withSystem node.config.system ({
     inputs',
     self',
+    config,
     ...
   }: lib.nixosSystem {
     specialArgs = {
-        inherit inputs self inputs' self' nodeOptions;
-        inherit (self) lib;
-        #packages = config.packages;
+        inherit inputs self inputs' self';
+        nodeConfig = node.config;
+        customLib = lib;
+        packages = config.packages;
     };
 
-    modules = nodeOptions.modules
+    modules = modules
       ++ singleton (node._path)
       ++ singleton {
-        networking.hostName = nodeOptions.hostname;
+        networking.hostName = node.config.hostname;
         
         nixpkgs = {
-          hostPlatform = mkDefault nodeOptions.system;
+          hostPlatform = mkDefault node.config.system;
           flake.source = nixpkgs.outPath;
           config.allowUnfree = true;
         };
@@ -53,6 +55,7 @@
       }
       ++ [
         inputs.home-manager.nixosModules.home-manager
+        ../../users/default.nix
         ({
           inputs',
           self',
@@ -61,17 +64,18 @@
           lib,
           ...
         }: {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.verbose = true;
           home-manager.sharedModules = [ 
             { 
               nix.package = lib.mkForce config.nix.package;
               programs.home-manager.enable = true;
-            } ];
+            } 
+          ];
+
           home-manager.extraSpecialArgs = {
             inherit (self) inputs;
             inherit inputs' self self'; 
+            customLib = lib;
+            nodeConfig = node.config;
           };
         })
       ];
