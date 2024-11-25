@@ -22,26 +22,30 @@
                           else
                             genAttrs (getDirs dir) (subdirName: recurseDirToAttrsetUntil { dir = (dir + "/${subdirName}"); depth = (depth - 1); inherit until validIf; } )
                         ) // (if (validIf dir) then 
-                              {name = lib.lists.last (lib.path.subpath.components (lib.path.splitRoot dir).subpath); _path = dir;}
+                              {
+                                name = lib.lists.last (lib.path.subpath.components (lib.path.splitRoot dir).subpath); 
+                                _path = dir; 
+                              }
                               else {});
 
   configureUsers = users: components: mapAttrs(n: v: let 
     userOptions = import ("${v._path}/options.nix") { inherit inputs components; };
   in v //
   {
-    config = {
-      isManagementUser = userOptions.isManagementUser or false;
-      trusted = userOptions.trusted or false;
-      allowRoot = userOptions.allowRoot or false;
-      opensshKeys = userOptions.opensshKeys or []; 
-      home = {
-        enabled = false;
-        path = "/home/${v.name}";
-      } // (userOptions.home or {});
-      components = [
-        "${v._path}/${v.name}.nix"
-      ] ++ (userOptions.components or []);
-    };
+    isManagementUser = userOptions.isManagementUser or false;
+    trusted = userOptions.trusted or false;
+    allowRoot = userOptions.allowRoot or false;
+    opensshKeys = userOptions.opensshKeys or []; 
+    home = {
+      enabled = false;
+      path = "/home/${v.name}";
+    } // (userOptions.home or {});
+    components = [
+      "${v._path}/${v.name}.nix"
+    ] ++ (userOptions.components or []);
+  } // lib.types.mkOptionType 
+  {
+    name = "user";
   }) users;
 
   configureProfiles = profiles: components: mapAttrsRecursiveCond
@@ -49,9 +53,10 @@
     (n: v: let
       profileOptions = import "${v._path}/options.nix" { inherit inputs components; };
     in v // {
-      config = {
-        components = profileOptions.components or [];
-      };
+      components = profileOptions.components or [];
+    } // lib.types.mkOptionType 
+    {
+      name = "profile";
     }) profiles;
 
   configureNodes = {
@@ -64,13 +69,13 @@
       (n: v: let
       nodeOptions = import ("${v._path}/options.nix") { inherit inputs components profiles users; };        
     in v // {
-      config = {
-        inherit (nodeOptions) hostname domain system profile users;
-        components = nodeOptions.components or [];
-        extraModules = nodeOptions.extraModules or [];
-      };
-    }
-  ) nodes;
+      inherit (nodeOptions) hostname domain system profile users;
+      components = nodeOptions.components or [];
+      extraModules = nodeOptions.extraModules or [];
+    } // lib.types.mkOptionType 
+  {
+    name = "node";
+  }) nodes;
 
   _modules = {
     components = recurseDirToAttrsetUntil { dir = ../../components; depth = 2; };

@@ -20,10 +20,10 @@
     withSystem
   }: let 
     modules = mkNodeModules {
-      inherit (node.config) users extraModules;
-      components = node.config.components ++ node.config.profile.config.components;
+      inherit (node) users extraModules;
+      components = node.components ++ node.profile.components;
     };
-  in withSystem node.config.system ({
+  in withSystem node.system ({
     inputs',
     self',
     config,
@@ -31,7 +31,7 @@
   }: lib.nixosSystem {
     specialArgs = {
         inherit inputs self inputs' self';
-        nodeConfig = node.config;
+        nodeConfig = node // { inherit lib; };
         customLib = lib;
         packages = config.packages;
     };
@@ -39,10 +39,10 @@
     modules = modules
       ++ singleton (node._path)
       ++ singleton {
-        networking.hostName = node.config.hostname;
+        networking.hostName = node.hostname;
         
         nixpkgs = {
-          hostPlatform = mkDefault node.config.system;
+          hostPlatform = mkDefault node.system;
           flake.source = nixpkgs.outPath;
           config.allowUnfree = true;
         };
@@ -50,35 +50,23 @@
           experimental-features = [ "nix-command" "flakes" ];
         };
 
+        # Default user config
+        users.users = lib.attrsets.genAttrs (lib.map (v: v.name) node.users) (
+          username: let
+            user = (lib.concatListToAttrs node.users).${username};
+          in {
+            extraGroups = lib.mkIf user.allowRoot ["wheel"];
+            isNormalUser = true;
+            openssh.authorizedKeys.keys = user.opensshKeys;
+          }
+        );
+
+        nix.settings.trusted-users = [ "@wheel" ] 
+          ++ map (v: v.name) (builtins.filter (x: x.trusted) (map (v: v) node.users));
+
         time.timeZone = "Europe/Berlin";
         system.stateVersion = "24.11";
-      }
-      ++ [
-        inputs.home-manager.nixosModules.home-manager
-        ../../users/default.nix
-        ({
-          inputs',
-          self',
-          self,
-          config,
-          lib,
-          ...
-        }: {
-          home-manager.sharedModules = [ 
-            { 
-              nix.package = lib.mkForce config.nix.package;
-              programs.home-manager.enable = true;
-            } 
-          ];
-
-          home-manager.extraSpecialArgs = {
-            inherit (self) inputs;
-            inherit inputs' self self'; 
-            customLib = lib;
-            nodeConfig = node.config;
-          };
-        })
-      ];
+      };
   });
 in {
   inherit mkNode;

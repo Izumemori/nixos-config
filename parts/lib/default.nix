@@ -13,7 +13,7 @@
 
     inherit (self.extendedLib.builders) mkNode;
     inherit (self.extendedLib.modules) profiles components users nodes;
-    inherit (self.extendedLib.functions) usersToNameList;
+    inherit (self.extendedLib.functions) concatListToAttrs;
   };
 
   extensions = lib.composeManyExtensions [
