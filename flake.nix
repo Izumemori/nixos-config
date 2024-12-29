@@ -15,7 +15,7 @@
     ];
 
     colmena-flake.deployment = {
-      "server.aoi" = {
+      server.aoi = {
         targetHost = "aoi.dmz.local.izu.re";
         targetUser = "colmena";
       };
