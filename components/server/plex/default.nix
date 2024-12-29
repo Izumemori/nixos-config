@@ -17,7 +17,7 @@
   config = lib.mkIf config.services.plex.enable {
     services.plex = {
       openFirewall = true;
-      user = lib.mkForce config.services.plex.nodeUser.name;
+      user = lib.mkForce config.services.plex.nodeUser.username;
     };
   };
 }

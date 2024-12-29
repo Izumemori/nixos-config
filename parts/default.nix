@@ -1,5 +1,6 @@
 {
   imports = [
     ./lib
+    ./deploy.nix
   ];
 }

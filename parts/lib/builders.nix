@@ -42,6 +42,7 @@
         networking.hostName = node.hostname;
         
         nixpkgs = {
+          #buildPlatform = "x86_64-linux";
           hostPlatform = mkDefault node.system;
           flake.source = nixpkgs.outPath;
           config.allowUnfree = true;
@@ -51,12 +52,14 @@
         };
 
         # Default user config
-        users.users = lib.attrsets.genAttrs (lib.map (v: v.name) node.users) (
+        users.users = lib.attrsets.genAttrs (lib.map (v: v.username) node.users) (
           username: let
-            user = (lib.concatListToAttrs node.users).${username};
+            user = lib.users.${username};
           in {
+            group = "users";
             extraGroups = lib.mkIf user.allowRoot ["wheel"];
-            isNormalUser = true;
+            isNormalUser = !user.isManagementUser;
+            isSystemUser = user.isManagementUser;
             openssh.authorizedKeys.keys = user.opensshKeys;
           }
         );

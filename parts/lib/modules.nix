@@ -43,6 +43,7 @@
     components = [
       "${v._path}/${v.name}.nix"
     ] ++ (userOptions.components or []);
+    username = v.name;
   } // lib.types.mkOptionType 
   {
     name = "user";

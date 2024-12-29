@@ -11,6 +11,7 @@
     imports = [
       ./nodes
       ./parts
+      inputs.colmena-flake.flakeModules.default
     ];
   };
 
@@ -39,6 +40,8 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    colmena-flake.url = "github:juspay/colmena-flake";
 
     flake-utils = {
       url = "github:numtide/flake-utils";
