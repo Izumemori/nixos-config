@@ -32,12 +32,12 @@
     userOptions = import ("${v._path}/options.nix") { inherit inputs components; };
   in v //
   {
-    isManagementUser = userOptions.isManagementUser or false;
+    isSystemUser = userOptions.isSystemUser or false;
     trusted = userOptions.trusted or false;
     allowRoot = userOptions.allowRoot or false;
     opensshKeys = userOptions.opensshKeys or []; 
     home = {
-      enabled = false;
+      enable = false;
       path = "/home/${v.name}";
     } // (userOptions.home or {});
     components = [
@@ -73,6 +73,7 @@
       inherit (nodeOptions) hostname domain system profile users;
       components = nodeOptions.components or [];
       extraModules = nodeOptions.extraModules or [];
+      nixpkgs = nodeOptions.nixpkgs or inputs.nixpkgs;
     } // lib.types.mkOptionType 
   {
     name = "node";

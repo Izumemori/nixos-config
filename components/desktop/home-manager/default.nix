@@ -38,7 +38,7 @@
         imports = user.components;
         home = with user; {
           username = user.name;
-          homeDirectory = lib.mkIf home.enabled home.path;
+          homeDirectory = lib.mkIf home.enable home.path;
           stateVersion = "24.11";
         };
       }

@@ -1,6 +1,6 @@
 {
   imports = [
     ./lib
-    ./deploy.nix
+    ./colmena.nix
   ];
 }

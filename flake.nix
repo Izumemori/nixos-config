@@ -5,21 +5,13 @@
   ### 
   description = "Izu's nix flake";
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{self, ...}: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import inputs.systems;
 
     imports = [
       ./nodes
       ./parts
-      inputs.colmena-flake.flakeModules.default
     ];
-
-    colmena-flake.deployment = {
-      "server.aoi" = {
-        targetHost = "aoi.dmz.local.izu.re";
-        targetUser = "colmena";
-      };
-    };
   };
 
   inputs = {
@@ -30,7 +22,7 @@
     systems.url = "github:nix-systems/default-linux";
 
     # Nixpkgs
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Hardware specific fixes
@@ -47,8 +39,6 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-
-    colmena-flake.url = "github:juspay/colmena-flake";
 
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -75,5 +65,7 @@
         url = "github:Gerg-L/spicetify-nix";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 }

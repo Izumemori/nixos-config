@@ -23,21 +23,40 @@
       inherit (node) users extraModules;
       components = node.components ++ node.profile.components;
     };
+
+    pkgs = node.nixpkgs.legacyPackages.${node.system};
   in withSystem node.system ({
     inputs',
     self',
     config,
     ...
-  }: lib.nixosSystem {
+  }: #node.nixpkgs.lib.nixosSystem {
+    import "${node.nixpkgs}/nixos/lib/eval-config.nix" {
+    lib = lib;
+    system = node.system;
     specialArgs = {
         inherit inputs self inputs' self';
         nodeConfig = node // { inherit lib; };
         customLib = lib;
-        packages = config.packages;
+        packages = pkgs;
     };
 
     modules = modules
+      # SOPS
+      ++ singleton ({ config, pkgs, lib, ... }: {
+        imports = (if builtins.pathExists "${node._path}/secrets/secrets.nix" then [
+          inputs.sops-nix.nixosModules.sops
+          "${node._path}/secrets/secrets.nix"
+        ] else []) ++ builtins.filter (v: builtins.pathExists v) (map (v: "${v._path}/secrets/secrets.nix") node.users);
+        
+        sops = {
+          sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+        };
+      })
       ++ singleton (node._path)
+      ++ singleton ({ config, pkgs, lib, ... }: {
+        config.nixpkgs.flake.source = lib.mkForce "${node.nixpkgs.outPath}";
+      })
       ++ singleton {
         networking.hostName = node.hostname;
         
@@ -58,14 +77,16 @@
           in {
             group = "users";
             extraGroups = lib.mkIf user.allowRoot ["wheel"];
-            isNormalUser = !user.isManagementUser;
-            isSystemUser = user.isManagementUser;
+            isNormalUser = !user.isSystemUser;
+            isSystemUser = user.isSystemUser;
             openssh.authorizedKeys.keys = user.opensshKeys;
+            createHome = user.home.enable;
+            home = lib.mkIf user.home.enable user.home.path;
           }
         );
 
         nix.settings.trusted-users = [ "@wheel" ] 
-          ++ map (v: v.name) (builtins.filter (x: x.trusted) (map (v: v) node.users));
+          ++ map (v: v.username) (builtins.filter (x: x.trusted) (map (v: v) node.users));
 
         time.timeZone = "Europe/Berlin";
         system.stateVersion = "24.11";
