@@ -3,12 +3,14 @@ keys:
   - &sam_2 B4A248648984241714F8D9004B3F6BF94BF93F25
   - &krypton age1fgrjnfensm48a5pl5kqvn7llhmauhjqqskl8h8le3ql93zp3e5es4yr4wd
   - &aoi age15zdzuu88vgxkkzg8w75rw2pn7renfx7m8rlz2kflrf4x7je553es3nu7rm
+  - &work-wsl age1lynr54j9mje7d6urchy7322vcqn9xr34t2l4976y0w20q29kl4jqpdgcte
 creation_rules:
   - path_regex: users/\w+/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age: 
           - *krypton
           - *aoi
+          - *work-wsl
         pgp:
           - *sam_1
           - *sam_2
@@ -17,6 +19,14 @@ creation_rules:
     key_groups:
       - age: 
           - *aoi
+        pgp:
+          - *sam_1
+          - *sam_2
+
+  - path_regex: nodes/desktop/work-wsl/secrets/[^/]+\.(yaml|json|env|ini|pem)$
+    key_groups:
+      - age: 
+          - *work-wsl
         pgp:
           - *sam_1
           - *sam_2

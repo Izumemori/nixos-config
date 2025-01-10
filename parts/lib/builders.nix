@@ -45,9 +45,8 @@
       # SOPS
       ++ singleton ({ config, pkgs, lib, ... }: {
         imports = (if builtins.pathExists "${node._path}/secrets/secrets.nix" then [
-          inputs.sops-nix.nixosModules.sops
           "${node._path}/secrets/secrets.nix"
-        ] else []) ++ builtins.filter (v: builtins.pathExists v) (map (v: "${v._path}/secrets/secrets.nix") node.users);
+        ] else []) ++ [ inputs.sops-nix.nixosModules.sops ]++ builtins.filter (v: builtins.pathExists v) (map (v: "${v._path}/secrets/secrets.nix") node.users);
         
         sops = {
           sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

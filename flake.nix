@@ -25,6 +25,9 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Nix WSL
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
     # Hardware specific fixes
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
