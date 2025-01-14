@@ -23,7 +23,7 @@ creation_rules:
           - *sam_1
           - *sam_2
 
-  - path_regex: nodes/desktop/work-wsl/secrets/[^/]+\.(yaml|json|env|ini|pem)$
+  - path_regex: nodes/desktop/work-wsl/secrets/[^/]+(\.(yaml|json|env|ini|pem))?$
     key_groups:
       - age: 
           - *work-wsl

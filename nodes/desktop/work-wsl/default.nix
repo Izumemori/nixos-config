@@ -27,4 +27,10 @@
     dates = "weekly";
     options = "--delete-older-than +5d";
   };
+
+  home-manager.users.${lib.users.sam.username} = {
+    programs.zsh.sessionVariables = {
+      KUBECONFIG = config.sops.secrets."kubeconfig".path;
+    };
+  };
 }
