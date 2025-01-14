@@ -3,13 +3,9 @@
   pkgs,
   ...
 }: let lib = customLib; in { 
-  catppuccin = let 
+  catppuccin = { 
     enable = true;
     flavor = "mocha";
-  in {
-    kitty = {
-      inherit enable flavor;
-    };
   };
 
   programs = {
