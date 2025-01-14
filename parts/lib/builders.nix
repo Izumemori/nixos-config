@@ -48,8 +48,10 @@
           "${node._path}/secrets/secrets.nix"
         ] else []) ++ [ inputs.sops-nix.nixosModules.sops ]++ builtins.filter (v: builtins.pathExists v) (map (v: "${v._path}/secrets/secrets.nix") node.users);
         
-        sops = {
+        sops = if config.system.stateVersion == "24.11" then {
           sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+        } else {
+          gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         };
       })
       ++ singleton (node._path)
@@ -88,7 +90,7 @@
           ++ map (v: v.username) (builtins.filter (x: x.trusted) (map (v: v) node.users));
 
         time.timeZone = "Europe/Berlin";
-        system.stateVersion = "24.11";
+        system.stateVersion = builtins.substring 0 5 lib.version;
       };
   });
 in {

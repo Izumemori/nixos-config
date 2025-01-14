@@ -5,6 +5,7 @@
   self',
   config,
   lib,
+  customLib,
   nodeConfig, 
   ... 
 }: with nodeConfig.lib; {
@@ -27,19 +28,19 @@
     extraSpecialArgs = {
       inherit (self) inputs;
       inherit inputs' self self'; 
-      customLib = lib;
+      customLib = customLib;
       inherit nodeConfig;
     };
 
-    users = lib.attrsets.genAttrs (lib.map (v: v.name) nodeConfig.users) (
+    users = lib.attrsets.genAttrs (lib.map (v: v.username) (lib.filter (u: u.home.enable) nodeConfig.users)) (
       username: let 
-        user = (concatListToAttrs nodeConfig.users).${username};
+        user = customLib.users.${username};
       in {
         imports = user.components;
         home = with user; {
-          username = user.name;
+          username = user.username;
           homeDirectory = lib.mkIf home.enable home.path;
-          stateVersion = "24.11";
+          stateVersion = builtins.substring 0 5 nodeConfig.nixpkgs.lib.version;
         };
       }
     );

@@ -74,6 +74,13 @@ in {
       ];
     };
 
-    users.groups.input.members = cfg.nodeUser.username;
+    users.groups.input.members = lib.singleton cfg.nodeUser.username;
+
+    home-manager.users.${cfg.nodeUser.username} = {
+      home.file.".gnupg" = {
+        source = ./.gnupg;
+        recursive = true;
+      };
+    };
   };
 }

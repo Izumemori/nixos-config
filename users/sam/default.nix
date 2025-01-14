@@ -8,6 +8,6 @@
   ...
 } : {
   users.users.sam = {
-    hashedPassword = config.sops.secrets."sam/hashedPassword".path;
+    hashedPasswordFile = config.sops.secrets."sam/hashedPassword".path;
   };
 }
