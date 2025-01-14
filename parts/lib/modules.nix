@@ -40,9 +40,10 @@
       enable = false;
       path = "/home/${v.name}";
     } // (userOptions.home or {});
-    components = [
-      "${v._path}/${v.name}.nix"
-    ] ++ (userOptions.components or []);
+    components = userOptions.components or [];
+    extraModules = [
+       "${v._path}/${v.name}.nix"
+    ] ++ (userOptions.extraModules or []);
     username = v.name;
   } // lib.types.mkOptionType 
   {

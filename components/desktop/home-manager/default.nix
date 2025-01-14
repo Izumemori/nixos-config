@@ -36,7 +36,7 @@
       username: let 
         user = customLib.users.${username};
       in {
-        imports = user.components;
+        imports = user.extraModules ++ (map (v: v._path) user.components);
         home = with user; {
           username = user.username;
           homeDirectory = lib.mkIf home.enable home.path;

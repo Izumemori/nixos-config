@@ -8,10 +8,13 @@
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDgrjAlpsC1uhLuDHqqaeF+jkpmd01DTpqrdR0FSRxvZu75dRi/KH2brv0+Sgd7tdKyiRjgTwTnDlOna7QXVOa4U6aXXLNZA1DBlhy0FcSZKOc3KXOSkbkaoNSsBPje6/3GZEwpAgBGkzrF+mtSgsCqF+sczHkdf7HdiXrMNGSyhizi+0h3OZVzOvJOt4KxRmzH8UsTyZfut8lXZryj7+OZY0bJ7bKw6idOklzdj2gvNjmInZjfmomgdYdpIlSLFouCfX6ZIUOAEhfySbkmCQRuB+Z9yf9vwKRYUj0SL9115f5UWoPePschcRrvmcolNa9dnqDlWR83MqKm2jKRhYZMIIRyqMAJCFNXEXol6a9+pc59dBGF7v2KyNRVus+X8/PPOG1kJdI6LTSm1446gwmDkKg3WLiUXwyF3Ie8UDkmfawk08KyzuH5NcxNtQ6R0zVHFKh+Um7c1dbYQFv0mXwbfDzNZ6RShRponBfcNIjArzbGQ5WPLsksPQGxTwBkAe5KOr8pRwPhjxcNWfRK/HbONxEdUUovnMcKaIplRe2UuxfpJF6FjRNXh+TY4ReLUT9YvIH7ddV/ijzkEzMyOEZKw/TILenfFjPLiueQfmAuJ1NO631f3t+nKg8qITb1ZDhmVS/RZaFpdBSfavDb9zlNfZ4h4rIduQ/DOr1y4b2+bQ== cardno:23_509_748"
   ];
   home.enable = true;
-  components = with inputs; [
-    #catppuccin.homeManagerModules.catppuccin
-    #sops.homeManagerModules.sops
+  components = with components.user; [
+    zsh
+  ];
+  extraModules = with inputs; [
     nixvirt.homeModules.default
     spicetify-nix.homeManagerModules.default
+    catppuccin.homeManagerModules.catppuccin
+    sops-nix.homeManagerModules.sops
   ];
 }
