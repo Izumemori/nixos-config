@@ -8,6 +8,8 @@
     flavor = "mocha";
   };
 
+  fonts.fontconfig.enable = true;
+
   programs = {
     nix-your-shell = {
       enable = true;
@@ -24,6 +26,10 @@
     kitty = {
       enable = true;
       shellIntegration.enableZshIntegration = true;
+      font = {
+        package = pkgs.nerd-fonts.fira-code;
+        name = "FiraCode NF";
+      };
     };
 
     direnv = {
