@@ -26,4 +26,11 @@
     dates = "daily";
     options = "--delete-older-than 7d";
   };
+
+  containers = {
+    zigbee = {
+      autoStart = true;
+      config = import ./containers/zigbee.nix;
+    };
+  };
 }

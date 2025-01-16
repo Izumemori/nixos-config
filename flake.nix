@@ -70,7 +70,7 @@
     };
 
     sops-nix.url = "github:Mic92/sops-nix";
-
+    hyprland.url = "github:hyprwm/Hyprland";
     catppuccin.url = "github:catppuccin/nix";
   };
 }

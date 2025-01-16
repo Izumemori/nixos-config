@@ -72,6 +72,7 @@
       nodeOptions = import ("${v._path}/options.nix") { inherit inputs components profiles users; };        
     in v // {
       inherit (nodeOptions) hostname domain system profile users;
+      port = nodeOptions.port or 22;
       components = nodeOptions.components or [];
       extraModules = nodeOptions.extraModules or [];
       nixpkgs = nodeOptions.nixpkgs or inputs.nixpkgs;

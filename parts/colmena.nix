@@ -14,7 +14,8 @@
           nodeConfig = value._module.specialArgs.nodeConfig;
           in {
           targetUser = "colmena";
-          targetHost = nodeConfig.hostname + "." + nodeConfig.domain;
+          targetHost = if nodeConfig.hostname == "test" then "127.0.0.1" else (if nodeConfig.domain != "" then nodeConfig.hostname + "." + nodeConfig.domain else nodeConfig.hostname);
+          targetPort = nodeConfig.port;
         };
       }) self.nixosConfigurations;
 }

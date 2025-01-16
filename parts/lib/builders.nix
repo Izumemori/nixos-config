@@ -43,12 +43,12 @@
 
     modules = modules
       # SOPS
-      ++ singleton ({ config, pkgs, lib, ... }: {
+      ++ singleton ({
         imports = (if builtins.pathExists "${node._path}/secrets/secrets.nix" then [
           "${node._path}/secrets/secrets.nix"
         ] else []) ++ [ inputs.sops-nix.nixosModules.sops ]++ builtins.filter (v: builtins.pathExists v) (map (v: "${v._path}/secrets/secrets.nix") node.users);
         
-        sops = if config.system.stateVersion == "24.11" then {
+        sops = if (builtins.substring 0 5 node.nixpkgs.lib.version) == "24.11" then {
           sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         } else {
           gnupg.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -70,6 +70,8 @@
         nix.settings = {
           experimental-features = [ "nix-command" "flakes" ];
         };
+
+        users.mutableUsers = false;
 
         # Default user config
         users.users = lib.attrsets.genAttrs (lib.map (v: v.username) node.users) (
