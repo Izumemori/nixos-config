@@ -130,6 +130,8 @@
     win-spice
     virtiofsd
 
+    mangohud
+
     vscode
     nil
 
@@ -142,13 +144,15 @@
     sops
 
     jetbrains.rider
+    jetbrains.clion
 
-    libimobiledevice
+    #libimobiledevice
     ifuse # optional, to mount using 'ifuse'
 
     android-studio
 
     gimp
+    distrobox
   ];
     
   programs = {    
@@ -174,6 +178,7 @@
       grub = {
         efiSupport = true;
         device = "nodev";
+        configurationLimit = 5;
       };
     };
     initrd = {
