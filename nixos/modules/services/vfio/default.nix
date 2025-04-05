@@ -62,15 +62,28 @@ in {
     nixpkgs.overlays = [
       (self: super: {
         looking-glass-client = super.looking-glass-client.overrideAttrs (oldAttrs: {
-          version = "B7-rc1-3ea37b8";
+          version = "B7-rc1-e25492a";
           src = super.fetchFromGitHub {
             owner = "gnif";
             repo = "LookingGlass";
-            rev = "3ea37b86e38a87ee35eefb5d8fcc38b8dc8e2903";
-            hash = "sha256-DuCznF2b3kbt6OfoOUD3ijJ1im7anxj25/xcQnIVnWc=";
+            rev = "e25492a3a36f7e1fde6e3c3014620525a712a64a";
+            hash = "sha256-DBmCJRlB7KzbWXZqKA0X4VTpe+DhhYG5uoxsblPXVzg=";
             fetchSubmodules = true;
           };
-          patches = [];
+          patches = [
+            ./patches/nanosvg-unvendor.diff
+          ];
+
+          buildInputs = oldAttrs.buildInputs ++ [ pkgs.nanosvg ];
+        });
+      })
+      (self: super: {
+        linuxPackages_testing = super.linuxPackages_testing.extend(lpself: lpsuper: {
+          kvmfr = super.linuxPackages_latest.kvmfr.overrideAttrs (oldAttrs: {
+            patches = [
+              ./patches/kernel613.diff
+            ];
+          });
         });
       })
     ];
@@ -85,6 +98,9 @@ in {
       (pkgs.wrapOBS {
         plugins = with pkgs.obs-studio-plugins; [
           looking-glass-obs
+          obs-vkcapture
+          obs-pipewire-audio-capture
+          obs-vaapi
         ];
       })
 
@@ -156,7 +172,6 @@ in {
 
       extraModprobeConfig = ''
         options kvm_amd avic=1 nested=0 sev=0
-        options vfio-pci ids=${lib.concatStringsSep "," cfg.pciIDs}
       '' + (if cfg.kvmfr.enable then "options kvmfr static_size_mb=${builtins.toString cfg.kvmfr.size}" else "");
     };
   };

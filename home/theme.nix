@@ -17,9 +17,9 @@ in {
     catppuccin = {
       inherit enable flavor accent;
 
-      pointerCursor = {
-        inherit enable flavor accent;
-      };
+      #pointerCursor = {
+      #  inherit enable flavor accent;
+      #};
     };    
     
     ### Programs

@@ -6,7 +6,7 @@ _: {
   ...
 } : let 
   cfg = config.programs.discord;
-  res = import ./nixos.nix osConfig;
+  #res = import ./nixos.nix osConfig;
 in {
   _file = ./default.nix;
 

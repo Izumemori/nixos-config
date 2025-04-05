@@ -5,6 +5,8 @@
         nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
         nixos-hardware.url = "github:nixos/nixos-hardware/master";
+        chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+        #hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
         sops = {
             url = "github:mic92/sops-nix";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -42,6 +44,7 @@
                 sops,
                 nixvirt,
                 spicetify-nix,
+                #hyprland,
                 ...
             }: let
                 inherit (self) outputs;

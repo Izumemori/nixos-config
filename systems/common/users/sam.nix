@@ -9,6 +9,8 @@
     ssh.enable = true;
   };
 
+  waybar.enable = true;
+  
   programs = {
     kitty = {
       enable = true;
@@ -72,7 +74,6 @@
 
     discord.enable = true;  
     bitwarden.enable = true;
-    qgis.enable = true;
     kubernetes.enable = true;
     spotify.enable = true;
   };

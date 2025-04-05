@@ -18,6 +18,7 @@ in
     inputs.nixvirt.nixosModules.default
     inputs.spicetify-nix.nixosModules.default
     inputs.sops.nixosModules.sops
+    inputs.chaotic.nixosModules.default
     inputs.home-manager.nixosModules.home-manager
     {
         home-manager.useGlobalPkgs = true;
