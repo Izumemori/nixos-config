@@ -18,6 +18,8 @@
     useUserPackages = true;
     verbose = true;  
 
+    backupFileExtension = "bak";
+
     sharedModules = [ 
       { 
         nix.package = lib.mkForce config.nix.package;

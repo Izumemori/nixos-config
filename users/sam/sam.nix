@@ -56,7 +56,7 @@
     gpg = let 
       gpgKey = pkgs.fetchurl {
         url = "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x8915fc124cf78a58";
-        hash = "sha256-JsBLOkmmgvw1Ya3QfPQL7/VriH9sYGT5/uMQaKwJh9w=";
+        hash = "sha256-6PJ01aoV7rZwFe3UInJ3l6klbXv0JO/z34WZ07FCv6I=";
       };
     in {
       enable = true;
