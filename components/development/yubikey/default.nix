@@ -64,12 +64,6 @@ in {
       systemPackages = with pkgs; [
         gnupg
 
-        # Yubico's official tools
-        yubikey-manager
-        yubikey-manager-qt
-        yubikey-personalization
-        yubikey-personalization-gui
-        yubico-piv-tool
         yubioath-flutter
       ];
     };

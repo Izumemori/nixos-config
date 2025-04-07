@@ -16,9 +16,11 @@
       ++ (map (val: val._path) components)
       ++ extraModules; 
 
-  mkNode = node: {
-    withSystem
-  }: let 
+  mkNode = template: {
+    withSystem,
+    ...
+  }@args: let 
+    node = template // (args.extraConfig or {});
     modules = mkNodeModules {
       inherit (node) users extraModules;
       components = node.components ++ node.profile.components;

@@ -70,7 +70,7 @@
       (as: builtins.isAttrs as && !(as ? "_path"))
       (n: v: let
       nodeOptions = import ("${v._path}/options.nix") { inherit inputs components profiles users; };        
-    in v // {
+    in v // nodeOptions // {
       inherit (nodeOptions) hostname domain system profile users;
       components = nodeOptions.components or [];
       extraModules = nodeOptions.extraModules or [];

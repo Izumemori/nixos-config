@@ -14,7 +14,7 @@
           nodeConfig = value._module.specialArgs.nodeConfig;
           in {
           targetUser = "colmena";
-          targetHost = nodeConfig.hostname + "." + nodeConfig.domain;
+          targetHost = nodeConfig.IP or (nodeConfig.hostname + "." + nodeConfig.domain);
         };
       }) self.nixosConfigurations;
 }
